@@ -1,15 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
-const { validationResult } = require('express-validator');
-const validateProductData = require('../middlewares/validateProductData');
+const { validateProductData, handleValidationErrors } = require('../middlewares/validateProductData');
+const setRequestId = require('../middlewares/setRequestId');
+const handleApiKeyValidation = require('../middlewares/handleApiKeyValidation');
 
-router.post('/', validateProductData, async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
+router.post('/',setRequestId, handleApiKeyValidation, validateProductData, handleValidationErrors,  async (req, res, next) => {
     try {
         const product = await Product.create(req.body);
         res.status(201).json(product);

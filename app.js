@@ -5,19 +5,23 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
 const products = require('./routes/products');
-const config = require('./config');
+const yaml = require('js-yaml');
+const fs = require('fs');
+
+const configData = yaml.load(fs.readFileSync('config.yaml', 'utf8'));
+const DATABASE_URL = configData.DATABASE_URL;
 
 mongoose.Promise = global.Promise;
 mongoose
-  .connect('mongodb+srv://admin:1234@cluster0.csfr8jg.mongodb.net/?retryWrites=true&w=majority', {
+  .connect(DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// var indexRouter = require('./routes/index');
+// var usersRouter = require('./routes/users');
 
 var app = express();
 
@@ -31,8 +35,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// app.use('/', indexRouter);
+// app.use('/users', usersRouter);
 app.use('/products', products);
 
 // catch 404 and forward to error handler
