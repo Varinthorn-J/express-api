@@ -5,12 +5,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
 const products = require('./routes/products');
+const config = require('./config');
 
 mongoose.Promise = global.Promise;
 mongoose
   .connect('mongodb+srv://admin:1234@cluster0.csfr8jg.mongodb.net/?retryWrites=true&w=majority', {
-    useNewUrlParser: true
-  })
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
 

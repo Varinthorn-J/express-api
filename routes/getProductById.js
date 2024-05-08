@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const validateProductId = require('../middlewares/validateProductId');
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id',validateProductId, async (req, res, next) => {
     try {
         const product = await Product.findById(req.params.id);
         if (!product) {
