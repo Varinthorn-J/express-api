@@ -1,15 +1,19 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const mongoose = require('mongoose');
 const products = require('./routes/products');
 const yaml = require('js-yaml');
 const fs = require('fs');
+const cors = require('cors');
 
 const configData = yaml.load(fs.readFileSync('config.yaml', 'utf8'));
 const DATABASE_URL = configData.DATABASE_URL;
+
+const app = express();
+app.use(cors());
 
 mongoose.Promise = global.Promise;
 mongoose
@@ -19,8 +23,6 @@ mongoose
 })
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
-
-var app = express();
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
