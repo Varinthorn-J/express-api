@@ -7,7 +7,7 @@ const API_KEY = configData.API_KEY;
 
 const handleApiKeyValidation = (req, res, next) => {
     const apiKey = req.headers['x-api-key'];
-    if (!apiKey || apiKey !== API_KEY) {
+    if (!apiKey || apiKey !== API_KEY ) {
         return res.status(401).json({ error: 'Unauthorized' });
     }
     next();

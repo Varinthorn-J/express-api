@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const handleApiKeyValidation = require('../middlewares/handleApiKeyValidation');
+const setRequestId = require('../middlewares/setRequestId');
 
-router.get('/', async (req, res, next) => {
+router.get('/', setRequestId, handleApiKeyValidation, async (req, res, next) => {
     try {
         const products = await Product.find();
         if (!products) {

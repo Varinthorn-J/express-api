@@ -8,7 +8,7 @@ const deleteProduct = require('./deleteProduct');
 const getProductById = require('./getProductById');
 
 router.get('/', getProducts);
-router.get('/:id', getProductById, (req, res) => { res.json(req.product);});
+router.get('/:id', getProductById, (req, res) => { res.json(req.product); });
 router.post('/', createProduct);
 router.put('/:id', getProductById, updateProduct);
 router.delete('/:id', getProductById, deleteProduct);

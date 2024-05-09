@@ -5,7 +5,7 @@ const { validateProductData, handleValidationErrors } = require('../middlewares/
 const setRequestId = require('../middlewares/setRequestId');
 const handleApiKeyValidation = require('../middlewares/handleApiKeyValidation');
 
-router.post('/',setRequestId, handleApiKeyValidation, validateProductData, handleValidationErrors,  async (req, res, next) => {
+router.post('/', setRequestId, handleApiKeyValidation, validateProductData, handleValidationErrors, async (req, res, next) => {
     try {
         const product = await Product.create(req.body);
         res.status(201).json(product);

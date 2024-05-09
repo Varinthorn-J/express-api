@@ -15,7 +15,7 @@ const handleValidationErrors = (req, res, next) => {
                 type: 'Schema Invalid',
                 description: error.msg,
                 detail: error.param,
-                traceId: req.headers['x-request-id']
+                traceId: req.xRequestId
             };
         });
         return res.status(400).json({ errors: formattedErrors });

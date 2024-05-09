@@ -1,14 +1,18 @@
-const { v4: generateRandomUUID } = require('uuid'); // import function to generate random UUID
+const { v4: generateRandomUUID } = require('uuid');
 
 const setRequestId = (req, res, next) => {
-    const requestId = generateRandomUUID(); // generate random UUID
+    if (req.headers['x-request-id'] === undefined) {
+        req.xRequestId = generateRandomUUID(); 
+    } else {
+        req.xRequestId = req.headers['x-request-id'];
+    }
 
     const apiKey = req.headers['x-api-key'];
+    if (apiKey !== undefined) {
+        req.apiKey = apiKey;
+        res.setHeader('x-api-key', apiKey);
+    }
 
-    res.setHeader('x-request-id', requestId);
-    res.setHeader('x-api-key', apiKey);
-
-    req.requestId = requestId;
     next();
 };
 
