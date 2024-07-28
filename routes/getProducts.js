@@ -7,7 +7,7 @@ const setRequestId = require('../middlewares/setRequestId');
 router.get('/', setRequestId, handleApiKeyValidation, async (req, res, next) => {
     try {
         const products = await Product.find();
-        if (!products) {
+        if (products == []) {
             return res.status(404).json({ message: 'Products not found' });
         }
         res.json(products);
